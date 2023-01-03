@@ -1,0 +1,32 @@
+<app-module-header title="Create new house entry (monthly expenses)"></app-module-header>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" >
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">House Name</label>
+        <input type="text" class="form-control" formControlName="houseName" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Installment</label>
+        <input type="number" class="form-control" formControlName="installement" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Maintenance</label>
+        <input type="number" class="form-control" formControlName="maintenance" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Sinking Fund</label>
+        <input type="number" class="form-control" formControlName="sinkingFund" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Electricity (average)</label>
+        <input type="number" class="form-control" formControlName="electricity" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Water (average)</label>
+        <input type="number" class="form-control" formControlName="water" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Wifi</label>
+        <input type="number" class="form-control" formControlName="wifi" />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+</form>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <app-module-header title="House List"></app-module-header>
+    <br>
+      <table class="table">
+        <tr>
+          <th>House Name</th>
+          <th>Installement</th>
+          <th>Maintenance </th>
+          <th>Sinking Fund</th>
+          <th>Electricity</th>
+          <th>Water</th>
+          <th>Wifi</th>
+          <th>Total</th>
+          <th>Logs</th>
+        </tr>
+        <tr *ngFor="let i of array">
+          <td>{{ i["houseName"] }}</td>
+          <td>{{ i["installement"] }}</td>
+          <td>{{ i["maintenance"] }}</td>
+          <td>{{ i["sinkingFund"] }}</td>
+          <td>{{ i["electricity"] }}</td>
+          <td>{{ i["water"] }}</td>
+          <td>{{ i["wifi"] }}</td>
+          <td>{{ i["total"] }}</td>
+          <th><a style="color: blue" class="card-link" (click)="toHouseLogs(i['id'])">Logs</a></th>
+        </tr>
+      </table>
+</body>
+</html>

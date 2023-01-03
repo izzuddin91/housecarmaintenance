@@ -1,0 +1,118 @@
+<app-module-header title="House Logs"></app-module-header>
+<h2>{{ currentMonthYear }}</h2>
+<br>
+<button (click)="triggerModal()" > Create New Log </button>
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{ display: displayStyle }"
+>
+  <div class="modal-dialog" role="document">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Data added!</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">New logs</label>
+          <input type="text" class="form-control" formControlName="notes" />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Amount</label>
+          <input type="text" class="form-control" formControlName="total" />
+        </div>
+        <div class="mb-3">
+          <label>
+            Date:
+            <input type="date" formControlName="date">
+          </label>
+        </div>
+        <label>
+          <input
+            type="file"
+            class="text-nowrap text-truncate"
+            (change)="selectFile($event)"
+          />
+        </label>
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Submit </button>
+        <button type="button" class="btn btn-danger" (click)="closePopup()">
+          Close
+        </button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{ display: displayStyle2 }"
+>
+  <div class="modal-dialog" role="document">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Image</h4>
+      </div>
+
+      <div class="modal-body">
+        <img style="height: 500px;     width: 100%;
+        object-fit: contain;" src="{{filename}}" alt="">
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closePopup2()">
+          Close
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="notes">
+    <th mat-header-cell *matHeaderCellDef> Notes </th>
+    <td mat-cell *matCellDef="let element"> {{element['notes']}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="total">
+    <th mat-header-cell *matHeaderCellDef> Total </th>
+    <td mat-cell *matCellDef="let element"> {{element['total']}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="image">
+    <th mat-header-cell *matHeaderCellDef> Image </th>
+    <td mat-cell *matCellDef="let element"> <button class="btn btn-primary" (click)="showImage(element['filename'])">Image</button> </td>
+  </ng-container>
+
+  <ng-container matColumnDef="download">
+    <th mat-header-cell *matHeaderCellDef> Download </th>
+    <td mat-cell *matCellDef="let element"> <button class="btn btn-primary" (click)="downloadImage(element['filename'])">Download</button> </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+

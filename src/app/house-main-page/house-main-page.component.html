@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <app-module-header title="House Tasks"></app-module-header>
+    <br />
+    <hr />
+    <br />
+    <h3><strong>Parts List</strong></h3>
+    <table class="table">
+      <tr>
+        <th>Invoice No</th>
+        <th>Parts Name</th>
+        <th>Description</th>
+        <th>Price (RM)</th>
+        <th>Pruchase Date</th>
+        <th>Photo</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      <tr *ngFor="let i of array">
+        <td>{{ i["invoice_no"] }}</td>
+        <td>{{ i["name"] }}</td>
+        <td>{{ i["description"] }}</td>
+        <th>{{ i["price"] }}</th>
+        <td>{{ i["date"].toDate().toDateString() | date: "dd/MM/yyyy" }}</td>
+        <td>
+          <a href="{{ i['photoLink'] }}" target="_blank">See</a>
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="edit(i)">
+            Edit
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="delete(i)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </table>
+    <br />
+    <button type="button" class="btn btn-primary" (click)="addNew()">
+      Add new
+    </button>
+  </body>
+</html>

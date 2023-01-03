@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <app-module-header title="Car Parts"></app-module-header>
+    <br />
+    <h3><strong> Age monitoring parts </strong></h3>
+
+    <table class="table">
+      <tr>
+        <th>Parts Name</th>
+        <th>Change within month(s)</th>
+      </tr>
+      <tr *ngFor="let i of ageMonitorparts">
+        <td>{{ i["partsName"] }}</td>
+        <td>{{ i["monthsLeft"] }}</td>
+      </tr>
+    </table>
+    <br />
+    <hr />
+    <br />
+    <h3><strong>Parts List</strong></h3>
+    <table class="table">
+      <tr>
+        <th>Parts Name</th>
+        <th>Description</th>
+        <th>Price (RM)</th>
+        <th>Pruchase Date</th>
+        <th>Age (months)</th>
+        <th>Photo</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      <tr *ngFor="let i of array">
+        <td>{{ i["partsName"] }}</td>
+        <td>{{ i["description"] }}</td>
+        <th>{{ i["price"] }}</th>
+        <td>{{ i["date"].toDate().toDateString() | date: "dd/MM/yyyy" }}</td>
+        <td>
+          {{
+            calculateDiff(
+              i["date"].toDate().toDateString() | date: "yyyy-MM-dd"
+            )
+          }}
+        </td>
+        <td>
+          <a href="{{ i['photoLink'] }}" target="_blank">See</a>
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="edit(i)">
+            Edit
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="delete(i)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </table>
+    <br />
+    <button type="button" class="btn btn-primary" (click)="addNew()">
+      Add new
+    </button>
+  </body>
+</html>
