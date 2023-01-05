@@ -22,13 +22,14 @@ export class HouseLogsComponent implements OnInit {
   array: any[] = [];
   houseId = '';
   dataSource = this.array;
-  m = new Date().getMonth().toString() + 1;
+  m = new Date().getMonth() + 1;
   y = new Date().getFullYear().toString();
   currentMonthYear = this.m + '-' + this.y;
   selectedFiles: FileList | undefined;
   currentFileUpload: FileUpload | undefined;
   percentage: number | undefined;
   filename: String | undefined;
+
   ngOnInit(): void {
 
   }
@@ -63,6 +64,23 @@ export class HouseLogsComponent implements OnInit {
         this.array.push(e.payload.doc.data({ serverTimestamps: 'estimate' }));
         this.dataSource = this.array
       });
+
+      //query this list so we can get only the entry for this particular month 
+      var filteredArray = []
+      for (var i = 0; i < this.dataSource.length; i++){
+        var this_data_month = this.dataSource[i]['date'].toDate().getMonth() + 1
+        var this_data_year = this.dataSource[i]['date'].toDate().getFullYear()
+
+        if (this_data_month+'-'+this_data_year == this.currentMonthYear ){
+          // remove if the data is not within this month
+          // this.dataSource.splice(i, 1)
+          filteredArray.push(this.dataSource[i])
+          console.log(this.currentMonthYear)
+          console.log(this_data_month+'-'+this_data_year)
+        }
+
+      }
+      this.dataSource = filteredArray
 
       for (var i = 0; i < this.dataSource.length; i++){
         this.dataSource[i]['date'] = this.dataSource[i]['date'].toDate().toDateString()
@@ -128,6 +146,7 @@ export class HouseLogsComponent implements OnInit {
       formData['filename'] = a
 
       this.data.addHouseLogs(formData)
+      window.location.reload();
     })
   }
 
