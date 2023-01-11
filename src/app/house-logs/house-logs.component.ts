@@ -23,12 +23,29 @@ export class HouseLogsComponent implements OnInit {
   houseId = '';
   dataSource = this.array;
   m = new Date().getMonth() + 1;
-  y = new Date().getFullYear().toString();
+  y = new Date().getFullYear();
   currentMonthYear = this.m + '-' + this.y;
   selectedFiles: FileList | undefined;
   currentFileUpload: FileUpload | undefined;
   percentage: number | undefined;
   filename: String | undefined;
+  monthList =   [1,2,3,4,5,6,7,8,9,10,11,12]
+  monthList2 = [
+    { 'month':'january', 'number': 1 },
+    { 'month':'february', 'number': 2 },
+    { 'month':'march', 'number': 3 },
+    { 'month':'april', 'number': 4 },
+    { 'month':'may', 'number': 5 },
+    { 'month':'june', 'number': 6 },
+    { 'month':'july', 'number': 7 },
+    { 'month':'august', 'number': 8 },
+    { 'month':'september', 'number': 9 },
+    { 'month':'october', 'number': 10 },
+    { 'month':'november', 'number': 11 },
+    { 'month':'december', 'number': 12 }
+  ]
+  yearList = [2022, 2023]
+  totalAmountForSelectedMonth = 0;
 
   ngOnInit(): void {
 
@@ -58,35 +75,36 @@ export class HouseLogsComponent implements OnInit {
         filename: []
       });
 
-    this.data.listHouseLogs(this.houseId).subscribe((res) => {
+    this.queryData();
+
+  }
+
+  queryData(){
+    this.dataSource = []
+    this.array = []
+    this.totalAmountForSelectedMonth = 0
+    console.log(this.m)
+    console.log(this.y)
+    this.data.listHouseLogs(this.houseId, this.m, this.y).subscribe((res) => {
       
       res.map((e) => {
         this.array.push(e.payload.doc.data({ serverTimestamps: 'estimate' }));
         this.dataSource = this.array
       });
-
-      //query this list so we can get only the entry for this particular month 
-      var filteredArray = []
-      for (var i = 0; i < this.dataSource.length; i++){
-        var this_data_month = this.dataSource[i]['date'].toDate().getMonth() + 1
-        var this_data_year = this.dataSource[i]['date'].toDate().getFullYear()
-
-        if (this_data_month+'-'+this_data_year == this.currentMonthYear ){
-          // remove if the data is not within this month
-          // this.dataSource.splice(i, 1)
-          filteredArray.push(this.dataSource[i])
-          console.log(this.currentMonthYear)
-          console.log(this_data_month+'-'+this_data_year)
-        }
-
-      }
-      this.dataSource = filteredArray
-
+      
       for (var i = 0; i < this.dataSource.length; i++){
         this.dataSource[i]['date'] = this.dataSource[i]['date'].toDate().toDateString()
+        this.totalAmountForSelectedMonth = this.totalAmountForSelectedMonth + Number(this.dataSource[i]['total'])
       }
     });
+  }
 
+   getMonthName(monthNumber: any) {
+    const date = new Date();
+    date.setMonth(monthNumber - 1);
+  
+    // Using the browser's default locale.
+    return date.toLocaleString([], { month: 'long' });
   }
 
   showImage(filename: string){
@@ -136,9 +154,6 @@ export class HouseLogsComponent implements OnInit {
   }
 
   onSubmit(formData: any){
-
-
-    console.log(formData)
     formData.date = new Date(formData.date);
 
     this.upload().then((a) => {
@@ -146,7 +161,7 @@ export class HouseLogsComponent implements OnInit {
       formData['filename'] = a
 
       this.data.addHouseLogs(formData)
-      window.location.reload();
+      // window.location.reload();
     })
   }
 
