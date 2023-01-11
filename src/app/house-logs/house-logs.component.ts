@@ -57,7 +57,7 @@ export class HouseLogsComponent implements OnInit {
     private readonly router: Router,
     private data: DataService
   ){
-    this.dataSource = [{}] // empty initialization
+    this.dataSource = [{}] // empty initialization test
       if (this.router.getCurrentNavigation()?.extras.state != null){
         var houseId = this.router.getCurrentNavigation()?.extras.state
         this.houseId = houseId!['houseId']
