@@ -13,8 +13,27 @@ import 'firebase/compat/auth';
 export class DataService {
   constructor(private afs: AngularFirestore) {}
 
-  listHouseLogs(houseId: String){
-    return (this.afs.collection('/houseLogs', ref => ref.where('houseId', '==', houseId).orderBy('date', 'desc')).snapshotChanges())
+  listHouseLogs(houseId: String, selectedMonth: number, selectedYear: number){
+
+    let start = new Date(selectedYear+'-'+selectedMonth+'-01');
+    var month = selectedMonth
+    var year = selectedYear
+
+    if (selectedMonth == 12){
+      month = 1
+      console.log(year)
+      year = Number(selectedYear) + 1
+      console.log(year)
+    }else {
+      month = selectedMonth + 1
+      year = selectedYear
+    }
+    let end = new Date(year+'-'+(month)+'-01');
+
+    return (this.afs.collection('/houseLogs', ref => ref.
+    where('date', '>', start).
+    where('date', '<', end).
+    where('houseId', '==', houseId).orderBy('date', 'desc')).snapshotChanges())
   }
 
   listAllHouses(){
